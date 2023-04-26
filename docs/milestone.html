@@ -1,91 +1,92 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
+  <head>
     <style>
-        body {
-            background-color: white;
-            padding: 100px;
-            width: 1000px;
-            margin: auto;
-            text-align: left;
-            font-weight: 300;
-            font-family: 'Open Sans', sans-serif;
-            color: #121212;
-        }
-
-        h1, h2, h3, h4 {
-            font-family: 'Source Sans Pro', sans-serif;
-        }
-
-        kbd {
-            color: #121212;
-        }
+      body {
+      background-color: white;
+      padding: 100px;
+      width: 1000px;
+      margin: auto;
+      text-align: left;
+      font-family: 'Open Sans', sans-serif;
+      color: #121212;
+      }
+      h1, h2, h3, h4 {
+      font-family: 'Source Sans Pro', sans-serif;
+      }
+      kbd {
+      color: #121212;
+      }
     </style>
     <title>CS 184 Path Tracer</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
-
     <script>
-        MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']]
-            }
-        };
+      MathJax = {
+          tex: {
+              inlineMath: [['$', '$'], ['\\(', '\\)']]
+          }
+      };
     </script>
     <script id="MathJax-script" async
-            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
-    </script>
-
-</head>
-
-<body>
-
-<h1 align="middle">Realistic Explosion Animation Using Navier-Stokes Equation for Inviscid Flow</h1>
-
-<br>
-
-<h2 align="middle">CS184 Final Project Milestone Status Report </h2>
-<p>
-<b>What we have accomplished:</b>
-We have finished most of our CUDA-accelerated raytracer. To begin with, we highly optimized our part 3 code, writing a spatially optimal BVH implementation, using floats instead of doubles, speeding up intersection tests, and using iterative ray bouncing instead of recursive. We then converted the code to utilize our GPU’s CUDA cores. This was a significant undertaking, and required refactoring much of the codebase.
-<br>
-For our other parts, we have done brainstorming on how we want the flame physics system to work, using the Navier Stokes model and applying it to the particles. We have been researching what the best visualizer for the particles as primitives could be, considering keeping them as spheres and merging spheres if they are close enough, or creating a mesh of the flame particles.
-</p>
-  
-<p>
-<b>Preliminary results:</b>
-<br>
-Compared to multi-threaded CPU ray tracing, our CUDA-accelerated implementation was 10 to 100 times faster. Raw BVH intersections were an average of 120x faster.
-</p>
-
-
-<div align="middle">
-    <table style="width:100%">
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  </head>
+  <body>
+    <h1 align="middle">Realistic Explosion Animation Using Navier-Stokes Equation for Inviscid Flow</h1>
+    <br>
+    <h2 align="middle">CS184 Final Project Milestone Status Report </h2>
+    <p>
+      <strong>What we have accomplished:</strong>
+      <br>
+      We have finished most of our CUDA-accelerated raytracer. To begin with, we highly optimized our part 3 code, writing a spatially optimal BVH implementation, using floats instead of doubles, speeding up intersection tests, and using iterative ray bouncing instead of recursive. We then converted the code to utilize our GPU’s CUDA cores. This was a significant undertaking, and required refactoring much of the codebase.
+      <br>
+      For our other parts, we have done brainstorming on how we want the flame physics system to work, using the Navier Stokes model and applying it to the particles. We have been researching what the best visualizer for the particles as primitives could be, considering keeping them as spheres and merging spheres if they are close enough, or creating a mesh of the flame particles.
+    </p>
+    <p>
+      <strong>Preliminary results:</strong>
+      <br>
+      Compared to multi-threaded CPU ray tracing, our CUDA-accelerated implementation was 10 to 100 times faster. Raw BVH intersections were an average of 120x faster.
+    </p>
+    <div align="middle">
+      <table style="width:100%">
         <tr align="center">
-            <b>Different Materials (128 Pixel Rays, 4 Light Ray, Max Depth 5)</b>
+          <td>
+            <img src="images/bvh_graph.png" align="middle" width="400px"/>
+          </td>
+          <td>
+            <img src="images/p2/example.png" align="middle" width="400px"/>
+          </td>
         </tr>
-        <tr align="center">
-            <td>
-                <img src="images/bvh_graph.png" align="middle" width="400px"/>
-            </td>
-            <td>
-                <img src="images/p2/example.png" align="middle" width="400px"/>
-            </td>
-        </tr>
-    </table>
-</div>
-<br>
-
-<p>
-<b>Progress reflection:</b>
-<br>
-After we had distributed parts and began thinking of how we wanted to implement each system, we realized that our distribution of responsibilities was not balanced well, so we re-assessed the major parts to work on, as follows:
-<br> -Physics model for the flames (using Navier Stokes, modeling the behavior of the flames and handling all of the particles and their properties) 
-<br> -Visualizer system to convert the physics model output (ie all of the particles) into primitives for the ray tracer. This will need to consider whether the particles should be kept as individual spheres or create some sort of mesh.
-<br> -CUDA accelerated ray tracer to output the image, and stitching images together to create animated gifs
-<br>
-The CUDA accelerated ray tracer portion is almost completely done, so we have the physics and visualizer systems remaining. We are a bit behind our original proposal since we needed to revise the major systems and work distribution, so we will be working a bit more these coming 2 weeks before the final presentation. 
-</p>
-
-</body>
+      </table>
+    </div>
+    <br>
+    <p>
+      <strong>Progress reflection:</strong>
+      <br>
+      After we had distributed parts and began thinking of how we wanted to implement each system, we realized that our distribution of responsibilities was not balanced well, so we re-assessed the major parts to work on, as follows:
+      <br>&emsp;-Physics model for the flames (using Navier Stokes, modeling the behavior of the flames and handling all of the particles and their properties) 
+      <br>&emsp;-Visualizer system to convert the physics model output (ie all of the particles) into primitives for the ray tracer. This will need to consider whether the particles should be kept as individual spheres or create some sort of mesh.
+      <br>&emsp;-CUDA accelerated ray tracer to output the image, and stitching images together to create animated gifs
+      <br>
+      The CUDA accelerated ray tracer portion is almost completely done, so we have the physics and visualizer systems remaining. We are a bit behind our original proposal since we needed to revise the major systems and work distribution, so we will be working a bit more these coming 2 weeks before the final presentation. 
+    </p>
+    <p>
+      <strong>Updated work plan:</strong>
+      <br>Week 4 (4/24) - Milestone Deliverables (due 4/25): 
+      <br>&emsp;-Work on subparts:
+      <br>&emsp;&emsp;-Physics system
+      <br>&emsp;&emsp;-Visualizer system 
+      <br>Week 5 (5/1): Presentations and Final Project Deliverables (due 5/4)
+      <br>&emsp;-Finish any in-progress subparts
+      <br>&emsp;-Render sequences of images in order to create animations of the flame
+      <br>&emsp;-Prepare for presentation & submit final deliverables
+    </p>
+    <p>
+      <strong>Video and Slides:</strong>
+      <br>
+      View our video <a href="url">here</a>.
+      <br>
+      View our presentation slides <a href="https://docs.google.com/presentation/d/1GBh8RCqtsSThKAiXW30ehz3_8nt03LkWxzf9I9m2ec4">here</a>.
+    </p>
+  </body>
 </html>
